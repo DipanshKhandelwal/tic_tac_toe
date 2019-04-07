@@ -6,6 +6,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      theme: ThemeData.dark(),
       home: new Game(),
     );
   }
@@ -83,12 +84,13 @@ class _GameState extends State<Game> {
 
   void dialog(text) {
     showDialog( context: context,
+        barrierDismissible: false,
         builder: (_) => new AlertDialog(
           title: new Text(text),
           actions: <Widget>[
             new FlatButton(
               onPressed: reset,
-              color: Colors.white,
+              color: Colors.blue,
               child: new Text("Reset"),
             )],
         )
@@ -133,10 +135,20 @@ class _GameState extends State<Game> {
                 ),
               ),
             ),
+            Container(
+              margin: EdgeInsets.all(50.0),
+              child: Center(
+                child: Text("Player $active turn !!",
+                    style: new TextStyle(
+                      color: active == 1 ? Colors.red : Colors.blue,
+                      fontSize: 50.0 )
+                ),
+              ),
+            ),
             new RaisedButton(
               child: new Text( "Reset",
                   style: new TextStyle(color: Colors.white, fontSize: 20.0) ),
-              color: Colors.red,
+              color: active == 1 ? Colors.red : Colors.blue,
               padding: const EdgeInsets.all(20.0),
               onPressed: reset,
             )
