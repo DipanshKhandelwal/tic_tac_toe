@@ -128,7 +128,7 @@ class _GameState extends State<Game> {
                         : null,
                     child: new Text( btns[i].text,
                         style: new TextStyle(
-                            color: Colors.white, fontSize: 20.0) ),
+                            color: Colors.white, fontSize: 70.0, fontWeight: FontWeight.w900 ) ),
                     color: btns[i].bg,
                     disabledColor: btns[i].bg,
                   ),
