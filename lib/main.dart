@@ -20,6 +20,8 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   List<Button> btns;
   var p1,p2,active;
+  var p1Win = 0;
+  var p2Win = 0;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _GameState extends State<Game> {
   List<Button> init() {
     p1 = new List();
     p2 = new List();
-    active = 1;
+    active = (p1Win+p2Win)%2+1;
 
     var buttons = new List<Button>.generate(9, (int index) => Button(id: index));
     return buttons;
@@ -39,22 +41,13 @@ class _GameState extends State<Game> {
   void playGame(Button gb) {
     setState(() {
       if (active == 1) {
-        gb.text = "X";
-        gb.bg = Colors.red;
-        active = 2;
-        p1.add(gb.id);
+        gb.text = "X"; gb.bg = Colors.red; active = 2; p1.add(gb.id);
       } else {
-        gb.text = "0";
-        gb.bg = Colors.blue;
-        active = 1;
-        p2.add(gb.id);
+        gb.text = "0"; gb.bg = Colors.blue; active = 1; p2.add(gb.id);
       }
-      gb.enabled = false;
-      int winner = checkWinner();
+      gb.enabled = false; int winner = checkWinner();
       if (winner == -1) {
-        if (btns.every((p) => p.text != "")) {
-          dialog("Game Tie !!");
-        }
+        if (btns.every((p) => p.text != "")) { dialog("Game Tie !!"); }
       }
     });
   }
@@ -73,7 +66,13 @@ class _GameState extends State<Game> {
         chk(p2,0,3,6) || chk(p2,1,4,7) || chk(p2,2,5,8) ||
         chk(p2,0,4,8) || chk(p2,2,4,6)) { winner = 2; }
 
-    if (winner != -1) { dialog("Player $winner Won !!"); }
+    if (winner != -1) {
+      setState(() {
+        if(winner==1) { p1Win += 1; }
+        else if(winner==2) { p2Win += 1; }
+      });
+      dialog("Player $winner Won !!");
+    }
     return winner;
   }
 
@@ -88,8 +87,7 @@ class _GameState extends State<Game> {
         builder: (_) => new AlertDialog(
           title: new Text(text),
           actions: <Widget>[
-            new FlatButton(
-              onPressed: reset,
+            new FlatButton( onPressed: reset,
               color: Colors.blue,
               child: new Text("Reset"),
             )],
@@ -106,26 +104,19 @@ class _GameState extends State<Game> {
           ),
         ),
         body: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new Expanded(
               child: new GridView.builder(
                 padding: const EdgeInsets.all(10.0),
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: 9.0,
-                    mainAxisSpacing: 9.0),
+                    crossAxisCount: 3, childAspectRatio: 1.0, crossAxisSpacing: 9.0, mainAxisSpacing: 9.0),
                 itemCount: btns.length,
                 itemBuilder: (context, i) => new SizedBox(
-                  width: 100.0,
-                  height: 100.0,
+                  width: 100.0, height: 100.0,
                   child: new RaisedButton(
                     padding: const EdgeInsets.all(8.0),
-                    onPressed: btns[i].enabled
-                        ? () => playGame(btns[i])
-                        : null,
+                    onPressed: btns[i].enabled ? () => playGame(btns[i]) : null,
                     child: new Text( btns[i].text,
                         style: new TextStyle(
                             color: Colors.white, fontSize: 70.0, fontWeight: FontWeight.w900 ) ),
@@ -138,19 +129,31 @@ class _GameState extends State<Game> {
             Container(
               margin: EdgeInsets.all(50.0),
               child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Player 1 wins = $p1Win",
+                        style: new TextStyle( color: Colors.red, fontSize: 25.0, fontWeight: FontWeight.w400 )
+                    ),
+                    Text("Player 2 wins = $p2Win",
+                        style: new TextStyle( color: Colors.blue, fontSize: 25.0, fontWeight: FontWeight.w400 )
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(30.0),
+              child: Center(
                 child: Text("Player $active turn !!",
-                    style: new TextStyle(
-                      color: active == 1 ? Colors.red : Colors.blue,
-                      fontSize: 50.0 )
+                    style: new TextStyle( color: active == 1 ? Colors.red : Colors.blue, fontSize: 50.0, fontWeight: FontWeight.w500 )
                 ),
               ),
             ),
             new RaisedButton(
               child: new Text( "Reset",
-                  style: new TextStyle(color: Colors.white, fontSize: 20.0) ),
+                  style: new TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w400) ),
               color: active == 1 ? Colors.red : Colors.blue,
-              padding: const EdgeInsets.all(20.0),
-              onPressed: reset,
+              padding: const EdgeInsets.all(20.0), onPressed: reset,
             )
           ],
         ));
