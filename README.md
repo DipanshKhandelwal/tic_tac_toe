@@ -1,16 +1,19 @@
-# tic_tac_toe
+<p align="center">
+  <img src="./assets/tic-tac-toe.png" align="center" width="150">
+</p>
 
-A tic tac toe in flutter under 5Kb of dart code !!
+<h1 align="center">Tic Tac Toe</h1>
 
-## Getting Started
+<p align="center">A tic tac toe in flutter under 5Kb of dart code !!</p>
 
-This project is a starting point for a Flutter application.
+## Clone
+``` bash
+git clone https://github.com/DipanshKhandelwal/tic_tac_toe.git
+cd tic_tac_toe
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Author
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+[Dipansh Khandelwal](https://github.com/dipanshkhandelwal)
+[<img src="https://image.flaticon.com/icons/svg/25/25231.svg" width="35" padding="10">](https://github.com/dipanshkhandelwal)
+[<img src="https://image.flaticon.com/icons/svg/185/185964.svg" width="35" padding="10">](https://linkedin.com/in/dipanshkhandelwal)
